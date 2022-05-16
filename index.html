@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Brewery Home page</title>
+</head>
+<style>
+    .nav{
+        background-color: blue;
+        display: flex;
+        justify-content: space-evenly;
+    }
+    .nav>a{
+        text-decoration: none;
+        color: white;
+        font-size: 35px;
+
+    }
+</style>
+<body>
+    <div class="nav">
+        <a   href="index.html">Home Page</a>
+        <a href="search.html">Search Page</a>
+        
+        
+    </div>
+    
+</body>
+<script>
+    var url='https://api.openbrewerydb.org/breweries?page=1&per_page=100'
+list()
+    async function list(){
+        try{
+            var date = await fetch(url)
+            .then((x)=>x.json())
+            .then((y)=>console.log(y))
+
+        }
+        catch(err){
+            cosole.log(err)
+        }
+    
+    }
+</script>
+</html>
