@@ -33,12 +33,54 @@
         
     </div>
     <label for="">Search bre</label>
-    <input type="text" id="q">
+    <input type="text" id="q" onkeyup="deb()">
     <button onclick="getclick()">Search</button>
     <div id ='show'>
     </div>
+    <div id ='sug'></div>
 </body>
 <script>
+function myfunc(fn,timespace){
+        let timer;
+        return function(){
+            let context=this,
+            args=arguments;
+            clearTimeout(timer);
+            timer = setTimeout(() => {
+                sai.apply(context, arguments);
+            }, timespace);
+        }
+    }
+    const deb = myfunc(sai(), 300)
+ async   function sai(){
+        x=document.getElementById("q").value
+    //  url=`https://api.openbrewerydb.org/breweries?by_name=${x}&per_page=1`
+ url=`https://api.openbrewerydb.org/breweries/search?query=${x}&per_page=4`
+ try{
+data = await fetch(url)
+.then((x)=>x.json())
+.then((y)=>s(y))
+ }catch(err){
+     console.log(err)
+ }
+ 
+    }
+
+function s(y){
+    var phels=document.querySelectorAll('.se')
+        console.log(phels)
+        phels.forEach(i=>i.remove())
+    ol=document.createElement('ul')
+    ol.className='se'
+    y.forEach((e)=>{
+         li=document.createElement('li')
+         li.innerHTML=e.name
+         ol.append(li)
+    })
+    document.getElementById('sug').append(ol)
+}
+
+
     async function getclick(){
         x=document.getElementById("q").value
     //  url=`https://api.openbrewerydb.org/breweries?by_name=${x}&per_page=1`
@@ -53,6 +95,9 @@ data = await fetch(url)
  
     }
     function displaylist(x){
+        var phels=document.querySelectorAll('.se')
+        console.log(phels)
+        phels.forEach(i=>i.remove())
         console.log(x)
         var phels=document.querySelectorAll('.ja')
         console.log(phels)
