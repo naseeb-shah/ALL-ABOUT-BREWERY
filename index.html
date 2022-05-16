@@ -18,6 +18,12 @@
         font-size: 35px;
 
     }
+    #show>div{
+        border: 1px solid black;
+        margin-top: 20px;
+        display:flex;
+        justify-content: space-between;
+    }
 </style>
 <body>
     <div class="nav">
@@ -26,7 +32,8 @@
         
         
     </div>
-    
+    <div id ='show'>
+    </div>
 </body>
 <script>
     var url='https://api.openbrewerydb.org/breweries?page=1&per_page=100'
@@ -35,13 +42,37 @@ list()
         try{
             var date = await fetch(url)
             .then((x)=>x.json())
-            .then((y)=>console.log(y))
+            .then((y)=>displaylist(y))
 
         }
         catch(err){
-            cosole.log(err)
+            console.log(err)
         }
     
+    }
+    function displaylist(x){
+        x.forEach(element => {
+            console.log(element)
+var div=document.createElement("div")
+div.class='bre'
+div.innerHTML=`
+<h2>${element.name}</h2>
+<h2>${element.brewery_type}</h2>
+<h2>${element.city}</h2>
+<h2>${element.state}</h2>` 
+
+
+button=document.createElement('button')
+button.innerHTML="More Deteals"
+button.class='mo'
+button.addEventListener('click',()=>{
+    localStorage.setItem('id',element.id)
+    window.location.href='./det.html'
+})
+div.appendChild(button)
+document.getElementById("show").append(div)      
+});
+
     }
 </script>
 </html>
