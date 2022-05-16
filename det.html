@@ -18,6 +18,10 @@
         font-size: 35px;
 
     }
+    h2{
+        text-align: center;
+    }
+    
 </style>
 <body>
     <div class="nav">
@@ -26,6 +30,53 @@
         
         
     </div>
-    
+    <div id ='show'>
+    </div>
 </body>
+<script>
+    name=localStorage.getItem('id')
+    console.log(name)
+ async function getclick(x){
+     url=`https://api.openbrewerydb.org/breweries?by_name=${x}&per_page=1`
+ 
+ try{
+data = await fetch(url)
+.then((x)=>x.json())
+.then((y)=>displaylist(y))
+ }catch(err){
+     console.log(err)
+ }
+ 
+    }
+getclick(name)
+
+
+
+     function displaylist(x){
+        x.forEach(element => {
+            console.log(element)
+var div=document.createElement("div")
+div.class='bre'
+div.innerHTML=`
+<h2> Name:${element.name}</h2>
+<h2> Type: ${element.brewery_type}</h2>
+<h2>City :${element.city}</h2>
+<h2> State :${element.state}</h2>
+<h2> Country: ${element.country}</h2>
+<h2>Stereet: ${element.street}</h2>
+<h2>Phone : ${element.phone}</h2>
+<h2>Postal code :${element.postal_code}</h2>
+<a href=${element.website_url}>Website</a>
+
+
+` 
+ 
+
+
+
+document.getElementById("show").append(div)      
+});
+
+    }
+</script>
 </html>
