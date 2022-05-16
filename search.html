@@ -18,6 +18,12 @@
         font-size: 35px;
 
     }
+    #show>div{
+        border: 1px solid black;
+        margin-top: 20px;
+        display:flex;
+        justify-content: space-between;
+    }
 </style>
 <body>
     <div class="nav">
@@ -26,6 +32,58 @@
         
         
     </div>
-    
+    <label for="">Search bre</label>
+    <input type="text" id="q">
+    <button onclick="getclick()">Search</button>
+    <div id ='show'>
+    </div>
 </body>
+<script>
+    async function getclick(){
+        x=document.getElementById("q").value
+    //  url=`https://api.openbrewerydb.org/breweries?by_name=${x}&per_page=1`
+ url=`https://api.openbrewerydb.org/breweries/search?query=${x}&per_page=10`
+ try{
+data = await fetch(url)
+.then((x)=>x.json())
+.then((y)=>displaylist(y))
+ }catch(err){
+     console.log(err)
+ }
+ 
+    }
+    function displaylist(x){
+        console.log(x)
+        var phels=document.querySelectorAll('.ja')
+        console.log(phels)
+        phels.forEach(i=>i.remove())
+        x.forEach(element => {
+            // console.log(element)
+var div=document.createElement("div")
+div.className='ja'
+div.innerHTML=`
+<h2>${element.name}</h2>
+<h2>${element.brewery_type}</h2>
+<h2>${element.city}</h2>
+<h2>${element.state}</h2>` 
+
+
+button=document.createElement('button')
+button.innerHTML="More Deteals"
+button.class='mo'
+button.addEventListener('click',()=>{
+    localStorage.setItem('id',element.name)
+    window.location.href='./det.html'
+})
+div.appendChild(button)
+document.getElementById("show").append(div)      
+});
+if(x.length==0){
+    h=document.createElement('h1')
+    h.innerHTML="Not found try other keyword"
+    document.getElementById("show").append(h)      
+}
+    }
+
+</script>
 </html>
